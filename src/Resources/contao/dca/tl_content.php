@@ -57,7 +57,7 @@ class tl_content_elementsets extends Backend
                 (
                     'label'               => &$GLOBALS['TL_LANG']['tl_content']['header_elementsets'],
                     'href'                => 'act=paste&mode=elementset_add',
-                    'icon'                => 'bundles/contao_elementsets/icon/new_elementsets.svg',
+                    'icon'                => 'bundles/elementsets/icon/new_elementsets.svg',
                     'attributes'          => 'onclick="Backend.getScrollOffset()" accesskey="4"'
                 )
             ));
@@ -69,7 +69,7 @@ class tl_content_elementsets extends Backend
                 (
                     'label'               => &$GLOBALS['TL_LANG']['tl_content']['elementset_delete'],
                     'href'                => 'act=elementset_delete',
-                    'icon'                => 'bundles/contao_elementsets/icon/delete_elementsets.svg',
+                    'icon'                => 'bundles/elementsets/icon/delete_elementsets.svg',
                     'attributes'          => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\'))return false;Backend.getScrollOffset()"',
                     'button_callback'     => array('tl_content_elementsets', 'deleteElement_Elementset')
                 )

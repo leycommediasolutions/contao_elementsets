@@ -18,5 +18,5 @@ $GLOBALS['TL_WRAPPERS']['start'][] = 'elementset_start';
 $GLOBALS['TL_WRAPPERS']['stop'][] = 'elementset_end';
 
 if (TL_MODE == 'BE') {
-    $GLOBALS['TL_CSS'][] = 'bundles/contao_elementsets/css/ElementSet.css';
+    $GLOBALS['TL_CSS'][] = 'bundles/elementsets/css/ElementSet.css';
 }
