@@ -45,10 +45,6 @@ class tl_content_elementsets extends Backend
     }
 	public function ElementsetOnload($dc)
 	{
-        if($GLOBALS['TL_DCA']['tl_content']['fields']['type']['elementset_start'])
-        {
-            echo "TEST";
-        }
         if(!(Input::get('do') == 'elementsets'))
         {
             array_insert($GLOBALS['TL_DCA']['tl_content']['list']['global_operations'], 0, array
