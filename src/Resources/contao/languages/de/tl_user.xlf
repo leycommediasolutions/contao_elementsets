@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.1" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/cs02/xliff-core-1.2-strict.xsd">
+  <file datatype="plaintext" original="leycommediasolutions/contao_elementsets/src/Resources/contao/languages/de/tl_user.xlf" source-language="de">
+    <body>
+      <trans-unit id="tl_user.elementsets_s.0">
+        <source>Erlaubte Elementsets</source>
+      </trans-unit>
+      <trans-unit id="tl_user.elementsets_s.1">
+        <source>Hier können Sie den Zugriff auf ein Elementset oder auf mehrere Elementsets erlauben.</source>
+      </trans-unit>
+      <trans-unit id="tl_user.elementsets_p.0">
+        <source>Elementsets Kategorierechte</source>
+      </trans-unit>
+      <trans-unit id="tl_user.elementsets_p.1">
+        <source>Hier können Sie die Elementsets-Kategorierechte festlegen.</source>
+      </trans-unit>
+      <trans-unit id="tl_user.elementsets_legend">
+        <source>Elementsets Rechte</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

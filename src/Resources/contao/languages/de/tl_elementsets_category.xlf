@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.1" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/cs02/xliff-core-1.2-strict.xsd">
+  <file datatype="plaintext" original="leycommediasolutions/contao_elementsets/src/Resources/contao/languages/de/tl_elementsets_category_category.xlf" source-language="de">
+    <body>
+      <trans-unit id="tl_elementsets_category.title_legend">
+        <source>Kategorie</source>
+      </trans-unit>
+      <trans-unit id="tl_elementsets_category.title.0">
+        <source>Name</source>
+      </trans-unit>
+      <trans-unit id="tl_elementsets_category.title.1">
+        <source>Geben Sie hier den Namen der Kategorie ein.</source>
+      </trans-unit>
+      <trans-unit id="tl_elementsets_category.new.0">
+        <source>Neue Kategorie</source>
+      </trans-unit>
+      <trans-unit id="tl_elementsets_category.new.1">
+        <source>Eine neue Kategorie erstellen.</source>
+      </trans-unit>
+      <trans-unit id="tl_elementsets_category.edit.0">
+        <source>Kategorie bearbeiten</source>
+      </trans-unit>
+      <trans-unit id="tl_elementsets_category.edit.1">
+        <source>Kategorie ID %s bearbeiten</source>
+      </trans-unit>
+      <trans-unit id="tl_elementsets_category.delete.0">
+        <source>Kategorie löschen</source>
+      </trans-unit>
+      <trans-unit id="tl_elementsets_category.delete.1">
+        <source>Kategorie ID %s löschen</source>
+      </trans-unit>
+      <trans-unit id="tl_elementsets_category.deleteConfirm.0">
+        <source>Löschen</source>
+      </trans-unit>
+      <trans-unit id="tl_elementsets_category.deleteConfirm.1">
+        <source>Bestätigen Sie das Löschen.</source>
+      </trans-unit>
+      <trans-unit id="tl_elementsets_category.show.0">
+        <source>Kategorie Details</source>
+      </trans-unit>
+      <trans-unit id="tl_elementsets_category.show.1">
+        <source>Details der Kategorie ID %s anzeigen</source>
+      </trans-unit>
+      <trans-unit id="tl_elementsets_category.copy.0">
+        <source>Kategorie kopieren</source>
+      </trans-unit>
+      <trans-unit id="tl_elementsets_category.copy.1">
+        <source>Kategorie ID %s kopieren</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

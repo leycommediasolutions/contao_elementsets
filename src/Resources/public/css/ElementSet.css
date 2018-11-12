@@ -1,0 +1,55 @@
+.tl_formbody_edit_elementsets > div {
+    text-align: center;
+    line-height: 75px;
+    font-size: 30px;
+    border: 1px solid #cccccc;
+    max-width: 559px;
+    margin-bottom: 10px;
+}
+.inside_elementsets{
+    padding: 2px 4px 2px 2px
+}
+.elementsets_preview{
+    height:100%;
+    width:100%;
+    
+}
+.insert_elementsets{
+    font-size: 20px;
+    background-color: #A4C420;
+    padding: 20px 24%;
+    text-decoration: none;
+    bottom: 0;
+}
+.insert_elementsets:hover,
+.insert_elementsets:visited,
+.insert_elementsets:active{
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #A4C420;
+    text-decoration: none;
+}
+.tl_box_elementsets img{
+    border: 1px solid #cccccc;
+}
+.tl_box_elementsets h2{
+    line-height: 2rem; 
+}
+@media screen and (max-width: 1371px)
+{
+    .inside_elementsets{
+        height:auto;
+    }
+}
+.elementset_delete img{
+    width: 16px;
+    height: 16px;
+}
+
+.elementset_delete{
+    padding-right: 3px;
+}
+.titel_elementsets{
+    width: 100px;
+    height: 75px;
+}

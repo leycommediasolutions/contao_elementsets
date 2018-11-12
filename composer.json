@@ -1,0 +1,28 @@
+{
+    "name": "leycommediasolutions/elementsets",
+    "type": "contao-bundle",
+    "description": "Contao 4 elementsets bundle",
+    "license": "LGPL-3.0-or-later",
+    "require": {
+        "php": "^7.1",
+        "contao/core-bundle": "~4.1",
+        "contao-community-alliance/composer-plugin":"~3.0"
+    },
+    "extra": {
+        "contao-manager-plugin": "leycommediasolutions\\elementsets\\ContaoManager\\ContaoManagerPlugin"
+    },
+    "autoload": {
+        "psr-4": {
+            "leycommediasolutions\\elementsets\\": "src/"
+        },
+        "classmap": [
+            "src/Resources/contao/"
+        ],
+        "exclude-from-classmap": [
+            "src/Resources/contao/config/",
+            "src/Resources/contao/dca/",
+            "src/Resources/contao/languages/",
+            "src/Resources/contao/templates/"
+        ]
+    }
+}

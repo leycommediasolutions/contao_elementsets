@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.1" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/cs02/xliff-core-1.2-strict.xsd">
+  <file datatype="plaintext" original="leycommediasolutions/contao_elementsets/src/Resources/contao/languages/de/tl_content.xlf" source-language="de">
+    <body>
+      <trans-unit id="tl_content.header_elementsets.0">
+        <source>Elementset einfügen</source>
+      </trans-unit>
+      <trans-unit id="tl_content.header_elementsets.1">
+        <source>Hier können Sie die Elementsets auswählen</source>
+      </trans-unit>
+      <trans-unit id="tl_content.preview_image_headline.0">
+        <source>Vorschaubild</source>
+      </trans-unit>
+      <trans-unit id="tl_content.name_headline.0">
+        <source>Name</source>
+      </trans-unit>
+      <trans-unit id="tl_content.select.0">
+        <source>Auswahl</source>
+      </trans-unit>
+      <trans-unit id="tl_content.insert_elementsets">
+        <source>Einfügen</source>
+      </trans-unit>
+      <trans-unit id="tl_content.elementset_delete.0">
+        <source>Elementset löschen</source>
+      </trans-unit>
+      <trans-unit id="tl_content.elementset_delete.1">
+        <source>Hier können Sie das Elementset löschen</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
