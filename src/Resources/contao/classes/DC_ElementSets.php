@@ -394,8 +394,9 @@ class DC_ElementSets extends \DC_Table
                                     $return .= '<div class="tl_box_elementsets">';
                                     $return .= '<div class="inside_elementsets">';
                                     $return .= $picture[$iy];
-                                    $return .= '</div>';
+                                    $return .= '<h2>'.$title[$iy].'</h2>';
                                     $return .= '<a class="insert_elementsets" href="'.ampersand(\Environment::get('request'), true).'&amp;elementset_id='.$id[$iy].'">'.$GLOBALS['TL_LANG']['tl_content']['insert_elementsets'].'</a>';
+                                    $return .= '</div>';
                                     $return .= '</div>';
                                     $return .= '</div>';
                                 }
