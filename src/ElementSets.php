@@ -1,6 +1,6 @@
 <?php
 
-namespace leycommediasolutions\elementsets;
+namespace leycommediasolutions\contao_elementsets;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
