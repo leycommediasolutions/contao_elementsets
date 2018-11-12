@@ -64,20 +64,6 @@ $GLOBALS['TL_DCA']['tl_elementsets'] = array
 				'href'                => 'table=tl_elementsets_category',
 				'class'               => 'header_new',
 				'attributes'          => 'onclick="Backend.getScrollOffset()"'
-            ),
-			'importieren' => array
-			(
-				'label'               => &$GLOBALS['TL_LANG']['tl_elementsets']['import'],
-				'href'                => 'key=import',
-				'icon'                => 'theme_import.svg',
-				'attributes'          => 'onclick="Backend.getScrollOffset()"'
-            ),
-			'export' => array
-			(
-				'label'               => &$GLOBALS['TL_LANG']['tl_elementsets']['export'],
-				'href'                => 'key=export',
-				'icon'                => 'theme_export.svg',
-				'attributes'          => 'onclick="Backend.getScrollOffset()"'
             )
 		),
 		'operations' => array

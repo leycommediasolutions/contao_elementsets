@@ -83,18 +83,6 @@
       <trans-unit id="tl_elementsets.newcategory.1">
         <source>Erstellen Sie eine Kategorie.</source>
       </trans-unit>
-      <trans-unit id="tl_elementsets.import.0">
-        <source>Importieren</source>
-      </trans-unit>
-      <trans-unit id="tl_elementsets.import.1">
-        <source>Importieren Sie Elementsets</source>
-      </trans-unit>
-      <trans-unit id="tl_elementsets.export.0">
-        <source>Exportieren</source>
-      </trans-unit>
-      <trans-unit id="tl_elementsets.export.1">
-        <source>Exportieren Sie Elementsets</source>
-      </trans-unit>
     </body>
   </file>
 </xliff>
