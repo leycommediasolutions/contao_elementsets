@@ -6,6 +6,7 @@ use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
+use leycommediasolutions\contao_elementsets\ElementSets;
 
 class ContaoManagerPlugin implements BundlePluginInterface
 {
