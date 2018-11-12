@@ -1,5 +1,5 @@
 {
-    "name": "leycommediasolutions/elementsets",
+    "name": "leycommediasolutions/contao_elementsets",
     "type": "contao-bundle",
     "description": "Contao 4 elementsets bundle",
     "license": "LGPL-3.0-or-later",
@@ -9,11 +9,11 @@
         "contao-community-alliance/composer-plugin":"~3.0"
     },
     "extra": {
-        "contao-manager-plugin": "leycommediasolutions\\elementsets\\ContaoManager\\ContaoManagerPlugin"
+        "contao-manager-plugin": "leycommediasolutions\\contao_elementsets\\ContaoManager\\ContaoManagerPlugin"
     },
     "autoload": {
         "psr-4": {
-            "leycommediasolutions\\elementsets\\": "src/"
+            "leycommediasolutions\\contao_elementsets\\": "src/"
         },
         "classmap": [
             "src/Resources/contao/"
