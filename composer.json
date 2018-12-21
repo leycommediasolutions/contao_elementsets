@@ -8,6 +8,9 @@
         "contao/core-bundle": "~4.1",
         "contao-community-alliance/composer-plugin":"~3.0"
     },
+    "replace": {
+        "leycommediasolutions/contao_elementsets": "self.version"
+    },
     "extra": {
         "contao-manager-plugin": "leycommediasolutions\\contao_elementsets\\ContaoManager\\ContaoManagerPlugin"
     },
