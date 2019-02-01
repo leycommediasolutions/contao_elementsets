@@ -137,7 +137,6 @@ class DC_ElementSets extends \DC_Table
             $this->set['floating'] = 'above';
             $this->set['sortOrder'] = 'ascending';
             $this->set['perRow'] = '4';
-            $this->set['playerAspect'] = 'none';
             $this->set['cssID'] = 'a:2:{i:0;s:0:"";i:1;s:0:"";}';
             $this->set['com_order'] = 'ascending';
             $this->set['com_template'] = 'com_default';
@@ -262,7 +261,6 @@ class DC_ElementSets extends \DC_Table
             $this->set['floating'] = 'above';
             $this->set['sortOrder'] = 'ascending';
             $this->set['perRow'] = '4';
-            $this->set['playerAspect'] = 'none';
             $this->set['cssID'] = 'a:2:{i:0;s:0:"";i:1;s:0:"";}';
             $this->set['com_order'] = 'ascending';
             $this->set['com_template'] = 'com_default';
