@@ -134,12 +134,8 @@ class DC_ElementSets extends \DC_Table
             $this->set['type'] = 'elementset_start';
             $this->set['tstamp'] = time();
             $this->set['headline'] = 'a:2:{s:4:"unit";s:2:"h2";s:5:"value";s:0:"";}';
-            $this->set['floating'] = 'above';
             $this->set['sortOrder'] = 'ascending';
-            $this->set['perRow'] = '4';
             $this->set['cssID'] = 'a:2:{i:0;s:0:"";i:1;s:0:"";}';
-            $this->set['com_order'] = 'ascending';
-            $this->set['com_template'] = 'com_default';
             $this->set['elementset_id'] = \Input::get('elementset_id');
             $this->set['elementset_sort'] = $element_sort;
             $this->set['elementset_id_all'] = $rand;
@@ -255,15 +251,11 @@ class DC_ElementSets extends \DC_Table
             $this->set = array();
 
             // ElementSets Ende wird generiert
-            $this->set['type'] = 'elementset_end';
+            $this->set['type'] = 'elementset_start';
             $this->set['tstamp'] = time();
             $this->set['headline'] = 'a:2:{s:4:"unit";s:2:"h2";s:5:"value";s:0:"";}';
-            $this->set['floating'] = 'above';
             $this->set['sortOrder'] = 'ascending';
-            $this->set['perRow'] = '4';
             $this->set['cssID'] = 'a:2:{i:0;s:0:"";i:1;s:0:"";}';
-            $this->set['com_order'] = 'ascending';
-            $this->set['com_template'] = 'com_default';
             $this->set['elementset_id'] = \Input::get('elementset_id');
             $this->set['elementset_sort'] = $element_sort;
             $this->set['elementset_id_all'] = $rand;
