@@ -251,7 +251,7 @@ class DC_ElementSets extends \DC_Table
             $this->set = array();
 
             // ElementSets Ende wird generiert
-            $this->set['type'] = 'elementset_start';
+            $this->set['type'] = 'elementset_end';
             $this->set['tstamp'] = time();
             $this->set['headline'] = 'a:2:{s:4:"unit";s:2:"h2";s:5:"value";s:0:"";}';
             $this->set['sortOrder'] = 'ascending';
