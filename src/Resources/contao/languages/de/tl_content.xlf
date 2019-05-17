@@ -26,6 +26,18 @@
       <trans-unit id="tl_content.elementset_delete.1">
         <source>Hier können Sie das Elementset löschen</source>
       </trans-unit>
+      <trans-unit id="tl_content.elementset_copy.0">
+        <source>Elementset kopieren</source>
+      </trans-unit>
+      <trans-unit id="tl_content.elementset_copy.1">
+        <source>Hier können Sie das Elementset kopieren</source>
+      </trans-unit>
+      <trans-unit id="tl_content.elementset_cut.0">
+        <source>Elementset verschieben</source>
+      </trans-unit>
+      <trans-unit id="tl_content.elementset_cut.1">
+        <source>Hier können Sie das Elementset verschieben</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>
