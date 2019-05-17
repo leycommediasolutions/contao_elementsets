@@ -2,17 +2,17 @@
 $GLOBALS['TL_DCA']['tl_content']['fields']['elementset_sort'] = array
 (
 	'eval' => array('doNotCopy' => true),
-    'sql'                     => "int(10) NOT NULL default '0'"
+    'sql'                     => "int(10) NULL"
 );
 $GLOBALS['TL_DCA']['tl_content']['fields']['elementset_id'] = array
 (
 	'eval' => array('doNotCopy' => true),
-    'sql'                     => "int(10) NOT NULL default '0'"
+    'sql'                     => "int(10) NULL"
 );
 $GLOBALS['TL_DCA']['tl_content']['fields']['elementset_id_all'] = array
 (
 	'eval' => array('doNotCopy' => true),
-    'sql'                     => "int(10) NOT NULL default '0'"
+    'sql'                     => "int(10) NULL"
 );
 
 
@@ -70,6 +70,21 @@ class tl_content_elementsets extends Backend
                     'button_callback'     => array('tl_content_elementsets', 'deleteElement_Elementset')
                 )
             ));
+            $GLOBALS['TL_DCA']['tl_content']['list']['operations']['copy'] = array(
+                'label'               => &$GLOBALS['TL_LANG']['tl_content']['copy'],
+				'href'                => 'act=paste&amp;mode=copy',
+				'icon'                => 'copy.svg',
+                'attributes'          => 'onclick="Backend.getScrollOffset()"',
+                'button_callback'     => array('tl_content_elementsets', 'copyElement_Elementset')
+            ); 
+
+            $GLOBALS['TL_DCA']['tl_content']['list']['operations']['cut'] = array(
+                'label'               => &$GLOBALS['TL_LANG']['tl_content']['cut'],
+				'href'                => 'act=paste&amp;mode=cut',
+				'icon'                => 'cut.svg',
+                'attributes'          => 'onclick="Backend.getScrollOffset()"',
+                'button_callback'     => array('tl_content_elementsets', 'cutElement_Elementset')
+            ); 
         }
     }
     	/**
@@ -100,6 +115,65 @@ class tl_content_elementsets extends Backend
                 {
                     if($v == 'elementset_start')
                     {
+                        return $objElement->numRows ? Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)) . ' ' : '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a>';
+                    }
+                }
+            }
+        }    
+    }
+    public function copyElement_Elementset($row, $href, $label, $title, $icon, $attributes)
+	{
+		$objElement = $this->Database->prepare("SELECT id FROM tl_content WHERE cteAlias=? AND type='alias'")
+									 ->limit(1)
+                                     ->execute($row['id']);
+                                     
+        $result = $this->Database->prepare("SELECT type FROM tl_content WHERE id=?")
+                                 ->execute($row['id']);
+        if ($result->numRows)
+        {
+            while($result->next())
+            {
+                foreach ($result->row() as $k=>$v)
+                {
+                    if($v == 'elementset_start')
+                    {
+
+                        $label = $GLOBALS['TL_LANG']['tl_content']['elementset_copy'][0]; 
+                        $title = $GLOBALS['TL_LANG']['tl_content']['elementset_copy'][1];
+                        $href = "act=paste&mode=elementset_copy";
+
+                        return $objElement->numRows ? Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)) . ' ' : '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a>';
+                    }
+                    else{
+                        return $objElement->numRows ? Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)) . ' ' : '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a>';
+                    }
+                }
+            }
+        }    
+    }
+    public function cutElement_Elementset($row, $href, $label, $title, $icon, $attributes)
+	{
+		$objElement = $this->Database->prepare("SELECT id FROM tl_content WHERE cteAlias=? AND type='alias'")
+									 ->limit(1)
+                                     ->execute($row['id']);
+                                     
+        $result = $this->Database->prepare("SELECT type FROM tl_content WHERE id=?")
+                                 ->execute($row['id']);
+        if ($result->numRows)
+        {
+            while($result->next())
+            {
+                foreach ($result->row() as $k=>$v)
+                {
+                    if($v == 'elementset_start')
+                    {
+                        $label = $GLOBALS['TL_LANG']['tl_content']['elementset_cut'][0]; 
+                        $title = $GLOBALS['TL_LANG']['tl_content']['elementset_cut'][1];
+                        $href = "act=paste&mode=elementset_cut";
+
+                        return $objElement->numRows ? Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)) . ' ' : '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a>';
+                    }
+                    else{
                         return $objElement->numRows ? Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)) . ' ' : '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a>';
                     }
                 }

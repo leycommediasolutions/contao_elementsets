@@ -21,7 +21,6 @@ class DC_ElementSets extends \DC_Table
     {
         parent::__construct($strTable, $arrModule=array());
     }
-    
     /**
      * Diese Methode hat die Parameter aus der Klasse DC_Table -> Methode create Zeile 623
      */   
@@ -79,7 +78,6 @@ class DC_ElementSets extends \DC_Table
 
 		$this->redirect($this->getReferer());
     }
-
     /**
      * Diese Methode hat die Parameter aus der Klasse DC_Table -> Methode edit Zeile 1774
      * Diese Methode besitzt zusaetzlich die Methode copy aus DC_Table
@@ -96,7 +94,6 @@ class DC_ElementSets extends \DC_Table
         }
         return false;
     }
-    
     /**
      * Diese Methode erstellt den neuen Datensatz 
      */
@@ -104,32 +101,11 @@ class DC_ElementSets extends \DC_Table
     {
         $element_sort = 1;
         $id_set = array();
-        $rand = rand(); // Generieren der Zufallszahl
-        $rand_ok = 0;
-
-        //Ausgeben der id um zu ueberpruefen ob die Zahl schon existiert
-        do{
-            $result_rand = $this->Database->prepare("SELECT elementset_id_all FROM tl_content")->execute();
-            while($result_rand->next())
-            {
-                foreach ($result_rand->row() as $k=>$v)
-                {
-                    if($v == $rand)
-                    {
-                        $rand = rand();
-                    }
-                    else
-                    {
-                        $rand_ok = 1;
-                    }
-                }
-            }
-        }while($rand_ok != 1);
+        $rand = $this->generate_rand(); 
 
         $result_newPosition = $this->Database->prepare("SELECT * FROM tl_content WHERE pid=? AND ptable=?")->execute(\Input::get('elementset_id'), 'tl_elementsets');
         if ($result_newPosition->numRows)
         {
-
             // Werte fuer die Datenbank werden erstellt.
             $this->set['type'] = 'elementset_start';
             $this->set['tstamp'] = time();
@@ -139,8 +115,6 @@ class DC_ElementSets extends \DC_Table
             $this->set['elementset_id'] = \Input::get('elementset_id');
             $this->set['elementset_sort'] = $element_sort;
             $this->set['elementset_id_all'] = $rand;
-
-              
 
             // Dynamically set the parent table of tl_content
             if ($GLOBALS['TL_DCA'][$this->strTable]['config']['dynamicPtable'])
@@ -164,7 +138,8 @@ class DC_ElementSets extends \DC_Table
             foreach($newid->row()  as $k=>$v)
             {
                 $id_set[$element_sort]= $v;
-            }                                   
+            }             
+                                  
             $element_sort++;
             // Das Array wird durchlaufen und die Werte werden hinzugefuegt
             while($result_newPosition->next())
@@ -208,17 +183,6 @@ class DC_ElementSets extends \DC_Table
                         $this->set[$k] = $v;
                     }
                 }
-                // HOOK: style sheet category
-                if ($this->strTable == 'tl_style')
-                {
-                    $filter = $objSessionBag->get('filter');
-                    $category = $filter['tl_style_' . CURRENT_ID]['category'];
-    
-                    if ($category != '')
-                    {
-                        $this->set['category'] = $category;
-                    }
-                }
                 /*Contao Ende*/
                 // Die neue ID wird verwendet um die Reihenfolge einhalten zu koennen
                 $pidold = $id_set[$element_sort-1];
@@ -245,7 +209,6 @@ class DC_ElementSets extends \DC_Table
                     $id_set[$element_sort]= $v;
                 }                                   
                 $element_sort++;
-            
             }
             // Das Array [set] wird geleert um die Daten von dem vorherigen Datensatz nicht zu uebernehmen 
             $this->set = array();
@@ -285,14 +248,12 @@ class DC_ElementSets extends \DC_Table
 
             for ($ix=1; $ix<$element_sort; $ix++)
             {
-                $this->Database->prepare("UPDATE tl_content SET elementset_sort=0 WHERE id=? ")
+                $this->Database->prepare("UPDATE tl_content SET elementset_sort=0 WHERE id=?")
                                         ->execute($id_set[$ix]);
             }
         } 
         $this->redirect($this->getReferer());
-        //return false
     }
-
     /**
      * Diese Methode erstellt die Uebersicht
      */
@@ -349,7 +310,7 @@ class DC_ElementSets extends \DC_Table
         $result = $this->Database->prepare("SELECT id, title, preview_image, category FROM tl_elementsets")
                                 ->execute();
         // Das Bild wird generiert
-        $objFile = \FilesModel::findByPk($objPage->flexibleheader_image)->path; /*echo $objFile*/
+        //$objFile = \FilesModel::findByPk($objPage->flexibleheader_image)->path; /*echo $objFile*/
         while($result->next())
         {
             $id[] = $result->id;
@@ -358,47 +319,38 @@ class DC_ElementSets extends \DC_Table
             $picture[] = Image::getHtml(\System::getContainer()->get('contao.image.image_factory')->create(TL_ROOT . '/' . $objFile_picture->path)->getUrl(TL_ROOT), '', 'class="elementsets_preview"');
             $category[] = $result->category;
         }
-        for($ix=0; $ix < count($category_name); $ix++)
+        if($_POST['category'] != '')
         {
-            // Es duerfen nur Kategorien angezeigt werden die auch einen Inhalt haben
-            if(in_array($category_name[$ix], $category))
-            {
-                // Ueberpruefen ob die  $_POST Variable gesetzt ist
-                if($_POST['category'] != '')
-                {
-                    // Ueberpruefung ob die Kategorie mit der Filterregel uebereinstimmt
-                    if($category[$ix] == $_POST['category']) 
-                    {
-                        $vartemp = array_search($category[$ix],$category_name);
+            $temp_category = array(); 
+            $temp_category_number = array_search($_POST['category'],$category_name);
 
-                        $return .= '<fieldset' .' id="pal_'.$id_category[$vartemp].'"'. ' class="tl_tbox tl_formbody_edit_elementsets">';
-                        $return .= '<legend onclick="AjaxRequest.toggleFieldset(this,\'' . $id_category[$vartemp] . '\',\'' . $this->strTable . '\')">' . $category_name[$vartemp] . '</legend>';
-        
-                            // Eine Schleife wird durchlaufen um die Kategorien abzuarbeiten
-                            for($iy=0; $iy <count($category); $iy++)
-                            {
-                                // Nur die passenden Daten werden herausgegeben
-                                if($category[$iy] == $category_name[$vartemp])
-                                {
-                                    $return .= '<div class="w50 autoheight widget">';
-                                    $return .= '<div class="tl_box_elementsets">';
-                                    $return .= '<div class="inside_elementsets">';
-                                    $return .= $picture[$iy];
-                                    $return .= '<h2>'.$title[$iy].'</h2>';
-                                    $return .= '<a class="insert_elementsets" href="'.ampersand(\Environment::get('request'), true).'&amp;elementset_id='.$id[$iy].'">'.$GLOBALS['TL_LANG']['tl_content']['insert_elementsets'].'</a>';
-                                    $return .= '</div>';
-                                    $return .= '</div>';
-                                    $return .= '</div>';
-                                }
-                            }
-                        $return .= '</fieldset>';
+            $return .= '<fieldset' .' id="pal_'.$id_category[$temp_category_number].'"'. ' class="tl_tbox tl_formbody_edit_elementsets">';
+            $return .= '<legend onclick="AjaxRequest.toggleFieldset(this,\'' . $id_category[$temp_category_number] . '\',\'' . $this->strTable . '\')">' . $category_name[$temp_category_number] . '</legend>';
+                // Eine Schleife wird durchlaufen um die Kategorien abzuarbeiten
+                for($iy=0; $iy <count($category); $iy++)
+                {
+                    // Nur die passenden Daten werden herausgegeben
+                    if($category[$iy] == $_POST['category'])
+                    {
+                        $return .= '<div class="w50 autoheight widget">';
+                        $return .= '<div class="tl_box_elementsets">';
+                        $return .= '<div class="inside_elementsets">';
+                        $return .= $picture[$iy];
+                        $return .= '<h2>'.$title[$iy].'</h2>';
+                        $return .= '<a class="insert_elementsets" href="'.ampersand(\Environment::get('request'), true).'&amp;elementset_id='.$id[$iy].'">'.$GLOBALS['TL_LANG']['tl_content']['insert_elementsets'].'</a>';
+                        $return .= '</div>';
+                        $return .= '</div>';
+                        $return .= '</div>';
                     }
                 }
-                else
-                {
+            $return .= '</fieldset>';
+
+        }else{
+            for($ix=0; $ix < count($category_name); $ix++)
+            {
+                if(in_array($category_name[$ix], $category)){
                     $return .= '<fieldset' .' id="pal_'.$id_category[$ix].'"'. ' class="tl_tbox tl_formbody_edit_elementsets">';
                     $return .= '<legend onclick="AjaxRequest.toggleFieldset(this,\'' . $id_category[$ix] . '\',\'' . $this->strTable . '\')">' . $category_name[$ix] . '</legend>';
-    
                         // Eine Schleife wird durchlaufen um die Kategorien abzuarbeiten
                         for($iy=0; $iy <count($category); $iy++)
                         {
@@ -432,7 +384,9 @@ class DC_ElementSets extends \DC_Table
         {
             foreach ($result_options->row() as $k=>$v)
             {
-                $options_elementsets .= '<option value="'.$v.'">'.$v.'</option>';
+                if(in_array($v,$category)){
+                    $options_elementsets .= '<option value="'.$v.'">'.$v.'</option>';
+                }
             }
         }
              
@@ -473,8 +427,6 @@ class DC_ElementSets extends \DC_Table
             <input type="hidden" name="FORM_SUBMIT" value="'.$this->strTable.'">
             <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">
             <input type="hidden" name="FORM_FIELDS[]" value="'.$cat.'">' . $return;
-
-
 
 		// Reload the page to prevent _POST variables from being sent twice
 		if (\Input::post('FORM_SUBMIT') == $this->strTable && !$this->noReload)
@@ -556,7 +508,7 @@ class DC_ElementSets extends \DC_Table
                 $result_delete->next();
                 $data_delete = $result_delete->fetchAllAssoc();
 
-                if($data_delete[0]['type'] == 'elementset_start')
+                if($data_delete[0]['type'] == 'elementset_start' && $data_delete[0]['elementset_id'] && $data_delete[0]['elementset_id_all'])
                 {
                     $result_delete_all = $this->Database->prepare("SELECT id FROM tl_content WHERE elementset_id =? AND elementset_id_all=?" )
                                                         ->execute($data_delete[0]['elementset_id'], $data_delete[0]['elementset_id_all']);
@@ -568,14 +520,314 @@ class DC_ElementSets extends \DC_Table
                             $this->delete(true);
                         }
                     }
+                    
+                }
+                else{
+                    \System::log('Das Elementset kann über das Contao Backend nicht gelöscht werden! Sie müssen die Elemente einzeln kopieren.' , __METHOD__, TL_ERROR);
                 }
             }
         }
         
         /* END */
+        \System::log('Das Elementset wurde gelöscht.' , __METHOD__, TL_GENERAL);
         $this->redirect($this->getReferer());
     }
+    /**
+     * Zum kopieren des gesamten Sets
+     */
+    public function elementset_copy()
+    {
+        $element_sort = 1;
+        $id_set = array();
+        $rand = $this->generate_rand(); 
 
+        /** @var Session $objSession */
+		$objSession = System::getContainer()->get('session');
+
+		/** @var AttributeBagInterface $objSessionBag */
+		$objSessionBag = $objSession->getBag('contao_backend');
+
+        if ($GLOBALS['TL_DCA'][$this->strTable]['config']['notCopyable'])
+		{
+			throw new InternalServerErrorException('Table "' . $this->strTable . '" is not copyable.');
+		}
+
+		if (!$this->intId)
+		{
+			$this->redirect($this->getReferer());
+		}
+
+
+        $result_set = $this->Database->prepare("SELECT elementset_id, elementset_id_all FROM tl_content WHERE id=?")->execute($this->intId);
+        $result_newPosition = $this->Database->prepare("SELECT * FROM tl_content WHERE elementset_id=? AND elementset_id_all =?")->execute($result_set->elementset_id,$result_set->elementset_id_all);
+
+		// Copy the values if the record contains data
+		if ($result_newPosition->numRows)
+		{
+			foreach ($result_newPosition->row() as $k=>$v)
+			{
+				if (\array_key_exists($k, $GLOBALS['TL_DCA'][$this->strTable]['fields']))
+				{
+					// Never copy passwords
+					if ($GLOBALS['TL_DCA'][$this->strTable]['fields'][$k]['inputType'] == 'password')
+					{
+						$v = Widget::getEmptyValueByFieldType($GLOBALS['TL_DCA'][$this->strTable]['fields'][$k]['sql']);
+					}
+
+					// Empty unique fields or add a unique identifier in copyAll mode
+					elseif ($GLOBALS['TL_DCA'][$this->strTable]['fields'][$k]['eval']['unique'])
+					{
+						$v = (Input::get('act') == 'copyAll' && !$GLOBALS['TL_DCA'][$this->strTable]['fields'][$k]['eval']['doNotCopy']) ? $v .'-'. substr(md5(uniqid(mt_rand(), true)), 0, 8) : Widget::getEmptyValueByFieldType($GLOBALS['TL_DCA'][$this->strTable]['fields'][$k]['sql']);
+					}
+
+					// Reset doNotCopy and fallback fields to their default value
+					elseif ($GLOBALS['TL_DCA'][$this->strTable]['fields'][$k]['eval']['doNotCopy'] || $GLOBALS['TL_DCA'][$this->strTable]['fields'][$k]['eval']['fallback'])
+					{
+                        if($k != "elementset_id" && $k != "elementset_id_all"){
+                            $v = Widget::getEmptyValueByFieldType($GLOBALS['TL_DCA'][$this->strTable]['fields'][$k]['sql']);
+
+                            // Use array_key_exists to allow NULL (see #5252)
+                            if (\array_key_exists('default', $GLOBALS['TL_DCA'][$this->strTable]['fields'][$k]))
+                            {
+                                $v = \is_array($GLOBALS['TL_DCA'][$this->strTable]['fields'][$k]['default']) ? serialize($GLOBALS['TL_DCA'][$this->strTable]['fields'][$k]['default']) : $GLOBALS['TL_DCA'][$this->strTable]['fields'][$k]['default'];
+                            }
+
+                            // Encrypt the default value (see #3740)
+                            if ($GLOBALS['TL_DCA'][$this->strTable]['fields'][$k]['eval']['encrypt'])
+                            {
+                                $v = Encryption::encrypt($v);
+                            }
+                        }
+					}
+
+                    $this->set[$k] = $v;
+                    if($k == "elementset_id_all"){
+                        $this->set[$k] = $rand;
+                    }
+                    if($k == "elementset_sort"){
+                        $this->set[$k] = $element_sort;
+                    }
+				}
+			}
+
+            // Get the new position
+            $this->getNewPosition('copy', (\strlen(\Input::get('pid')) ? \Input::get('pid') : null), (\Input::get('mode') == '2' ? true : false));
+
+            // Dynamically set the parent table of tl_content
+            if ($GLOBALS['TL_DCA'][$this->strTable]['config']['dynamicPtable'])
+            {
+                $this->set['ptable'] = $this->ptable;
+            }
+            
+            // Empty clipboard
+            $arrClipboard = $objSession->get('CLIPBOARD');
+            $arrClipboard[$this->strTable] = array();
+            $objSession->set('CLIPBOARD', $arrClipboard);
+
+            // Insert the record if the table is not closed and switch to edit mode
+            if (!$GLOBALS['TL_DCA'][$this->strTable]['config']['closed'])
+            {
+                // Mark the new record with "copy of" (see #586)
+                if (isset($GLOBALS['TL_DCA'][$this->strTable]['config']['markAsCopy']))
+                {
+                    $strKey = $GLOBALS['TL_DCA'][$this->strTable]['config']['markAsCopy'];
+
+                    if ($GLOBALS['TL_DCA'][$this->strTable]['fields'][$strKey]['inputType'] == 'inputUnit')
+                    {
+                        $value = StringUtil::deserialize($this->set[$strKey]);
+
+                        if (!empty($value) && \is_array($value) && $value['value'] != '')
+                        {
+                            $value['value'] = sprintf($GLOBALS['TL_LANG']['MSC']['copyOf'], $value['value']);
+                            $this->set[$strKey] = serialize($value);
+                        }
+                    }
+                    elseif (!empty($this->set[$strKey]))
+                    {
+                        $this->set[$strKey] = sprintf($GLOBALS['TL_LANG']['MSC']['copyOf'], $this->set[$strKey]);
+                    }
+                }
+
+                // Remove the ID field from the data array
+                unset($this->set['id']);
+                $this->set['tstamp'] = time();
+
+                $objInsertStmt = $this->Database->prepare("INSERT INTO " . $this->strTable . " %s")
+                                                ->set($this->set)
+                                                ->execute();
+
+                if ($objInsertStmt->affectedRows)
+                {
+                    $insertID = $objInsertStmt->insertId;
+
+                    // Add a log entry
+                    $this->log('A new entry "'.$this->strTable.'.id='.$insertID.'" has been created by duplicating record "'.$this->strTable.'.id='.$this->intId.'"'.$this->getParentEntries($this->strTable, $insertID), __METHOD__, TL_GENERAL);
+                    //$this->redirect($this->getReferer());
+
+                    $id_set[$element_sort]= $insertID;                          
+                    $element_sort++;
+                }
+            }
+            
+
+            while($result_newPosition->next())
+            {
+                foreach ($result_newPosition->row() as $k=>$v)
+                {
+                    if (\array_key_exists($k, $GLOBALS['TL_DCA'][$this->strTable]['fields']))
+                    {
+                        // Never copy passwords
+                        if ($GLOBALS['TL_DCA'][$this->strTable]['fields'][$k]['inputType'] == 'password')
+                        {
+                            $v = Widget::getEmptyValueByFieldType($GLOBALS['TL_DCA'][$this->strTable]['fields'][$k]['sql']);
+                        }
+
+                        // Empty unique fields or add a unique identifier in copyAll mode
+                        elseif ($GLOBALS['TL_DCA'][$this->strTable]['fields'][$k]['eval']['unique'])
+                        {
+                            $v = (Input::get('act') == 'copyAll' && !$GLOBALS['TL_DCA'][$this->strTable]['fields'][$k]['eval']['doNotCopy']) ? $v .'-'. substr(md5(uniqid(mt_rand(), true)), 0, 8) : Widget::getEmptyValueByFieldType($GLOBALS['TL_DCA'][$this->strTable]['fields'][$k]['sql']);
+                        }
+
+                        // Reset doNotCopy and fallback fields to their default value
+                        elseif ($GLOBALS['TL_DCA'][$this->strTable]['fields'][$k]['eval']['doNotCopy'] || $GLOBALS['TL_DCA'][$this->strTable]['fields'][$k]['eval']['fallback'])
+                        {
+                            if($k != "elementset_id" && $k != "elementset_id_all"){
+                                $v = Widget::getEmptyValueByFieldType($GLOBALS['TL_DCA'][$this->strTable]['fields'][$k]['sql']);
+
+                                // Use array_key_exists to allow NULL (see #5252)
+                                if (\array_key_exists('default', $GLOBALS['TL_DCA'][$this->strTable]['fields'][$k]))
+                                {
+                                    $v = \is_array($GLOBALS['TL_DCA'][$this->strTable]['fields'][$k]['default']) ? serialize($GLOBALS['TL_DCA'][$this->strTable]['fields'][$k]['default']) : $GLOBALS['TL_DCA'][$this->strTable]['fields'][$k]['default'];
+                                }
+
+                                // Encrypt the default value (see #3740)
+                                if ($GLOBALS['TL_DCA'][$this->strTable]['fields'][$k]['eval']['encrypt'])
+                                {
+                                    $v = Encryption::encrypt($v);
+                                }
+                            }
+                        }
+
+                        $this->set[$k] = $v;
+                        if($k == "elementset_id_all"){
+                            $this->set[$k] = $rand;
+                        }
+                        if($k == "elementset_sort"){
+                            $this->set[$k] = $element_sort;
+                        }
+                    }
+                }
+                $pidold = $id_set[$element_sort-1];
+               // $this->getNewPosition('copy', (\strlen($pidold) ? $pidold : null), (Input::get('mode') == '2' ? true : false));
+               $this->getNewPosition('copy', (\strlen($pidold) ? $pidold : null) , false);
+                
+                // Dynamically set the parent table of tl_content
+                if ($GLOBALS['TL_DCA'][$this->strTable]['config']['dynamicPtable'])
+                {
+                    $this->set['ptable'] = $this->ptable;
+                }
+
+                // Insert the record if the table is not closed and switch to edit mode
+                if (!$GLOBALS['TL_DCA'][$this->strTable]['config']['closed'])
+                {
+                    $this->set['tstamp'] = ($blnDoNotRedirect ? time() : 0);
+
+                    // Mark the new record with "copy of" (see #586)
+                    if (isset($GLOBALS['TL_DCA'][$this->strTable]['config']['markAsCopy']))
+                    {
+                        $strKey = $GLOBALS['TL_DCA'][$this->strTable]['config']['markAsCopy'];
+
+                        if ($GLOBALS['TL_DCA'][$this->strTable]['fields'][$strKey]['inputType'] == 'inputUnit')
+                        {
+                            $value = StringUtil::deserialize($this->set[$strKey]);
+
+                            if (!empty($value) && \is_array($value) && $value['value'] != '')
+                            {
+                                $value['value'] = sprintf($GLOBALS['TL_LANG']['MSC']['copyOf'], $value['value']);
+                                $this->set[$strKey] = serialize($value);
+                            }
+                        }
+                        elseif (!empty($this->set[$strKey]))
+                        {
+                            $this->set[$strKey] = sprintf($GLOBALS['TL_LANG']['MSC']['copyOf'], $this->set[$strKey]);
+                        }
+                    }
+
+                    // Remove the ID field from the data array
+                    unset($this->set['id']);
+                    $this->set['tstamp'] = time();
+
+                    $objInsertStmt = $this->Database->prepare("INSERT INTO " . $this->strTable . " %s")
+                                                    ->set($this->set)
+                                                    ->execute();
+
+                    if ($objInsertStmt->affectedRows)
+                    {
+                        $insertID = $objInsertStmt->insertId;
+
+                        // Add a log entry
+                        $this->log('A new entry "'.$this->strTable.'.id='.$insertID.'" has been created by duplicating record "'.$this->strTable.'.id='.$this->intId.'"'.$this->getParentEntries($this->strTable, $insertID), __METHOD__, TL_GENERAL);
+                        //$this->redirect($this->getReferer());
+
+                        $id_set[$element_sort]= $insertID;                          
+                        $element_sort++;
+                    }
+                }
+            }
+
+            for ($ix=1; $ix<$element_sort; $ix++)
+            {
+                $this->Database->prepare("UPDATE tl_content SET elementset_sort=0 WHERE id=?")
+                                        ->execute($id_set[$ix]);
+            }
+        }
+        $this->redirect($this->getReferer());
+    }
+    /**
+    * Zum verschieben des gesamten Sets
+    */
+    public function elementset_cut()
+    {
+        $id_array= array(); 
+        if($this->strTable == 'tl_content'){
+
+            /** @var Session $objSession */
+            $objSession = System::getContainer()->get('session');
+
+            $arrClipboard = $objSession->get('CLIPBOARD');
+
+
+            $result_set = $this->Database->prepare("SELECT elementset_id, elementset_id_all FROM tl_content WHERE id=?")->execute($this->intId);
+            $result_newPosition = $this->Database->prepare("SELECT id FROM tl_content WHERE elementset_id=? AND elementset_id_all =?")->execute($result_set->elementset_id,$result_set->elementset_id_all);
+
+
+            if ($result_newPosition->numRows)
+            {
+                while($result_newPosition->next()){
+                    foreach ($result_newPosition->row() as $id)
+                    {
+                        $id_array[] = $id; 
+                    }
+                }
+            }
+            if (isset($arrClipboard[$this->strTable]) && \is_array($id_array))
+            {
+                foreach ($id_array as $id)
+                {
+                    $this->intId = $id;
+                    $this->cut(true);
+                    Input::setGet('pid', $id);
+                    Input::setGet('mode', 1);
+                }
+            }
+            $this->redirect($this->getReferer());
+        }
+        else
+        {
+            \System::log('Das Elementset kann über das Contao Backend nicht verschoben werden! Sie müssen die Elemente einzeln verschieben.' , __METHOD__, TL_ERROR);
+            $this->redirect($this->getReferer());
+        }
+    }
 	/** 
      * Die Parent Methode ist in Datacontainer.php line 724
 	 * Return a query string that switches into edit mode
@@ -603,5 +855,31 @@ class DC_ElementSets extends \DC_Table
 		$strUrl = TL_SCRIPT . '?' . implode('&', $arrKeys);
 
         return $strUrl . (!empty($arrKeys) ? '&' : '') . (\Input::get('table') ? 'table='.\Input::get('table').'&amp;' : '').'act=elementset_edit&amp;id='.rawurlencode($id);
+    }
+    //Zufallszahlen werden generiert
+    private function generate_rand(){
+        $rand = rand(); // Generieren der Zufallszahl
+        $rand_ok = 0;
+    
+        //Ausgeben der id um zu ueberpruefen ob die Zahl schon existiert
+        do{
+            $result_rand = $this->Database->prepare("SELECT elementset_id_all FROM tl_content")->execute();
+            while($result_rand->next())
+            {
+                foreach ($result_rand->row() as $k=>$v)
+                {
+                    if($v == $rand)
+                    {
+                        $rand = rand();
+                    }
+                    else
+                    {
+                        $rand_ok = 1;
+                    }
+                }
+            }
+        }while($rand_ok != 1);
+
+        return $rand; 
     }
 }
