@@ -83,6 +83,24 @@
       <trans-unit id="tl_elementsets.newcategory.1">
         <source>Erstellen Sie eine Kategorie.</source>
       </trans-unit>
+      <trans-unit id="tl_elementsets.addWrapper.0">
+        <source>Wrapper einfügen</source>
+      </trans-unit>
+      <trans-unit id="tl_elementsets.addWrapper.1">
+        <source>Hier können Sie auswählen ob ein Wrapper eingefügt werden soll.</source>
+      </trans-unit>      
+      <trans-unit id="tl_elementsets.customTplStart.0">
+        <source>Individuelles Template (Start)</source>
+      </trans-unit>
+      <trans-unit id="tl_elementsets.customTplStart.1">
+        <source>Hier können Sie das Standard-Template für den Wrapper überschreiben.</source>
+      </trans-unit>   
+      <trans-unit id="tl_elementsets.customTplEnde.0">
+        <source>Individuelles Template (Ende)</source>
+      </trans-unit>
+      <trans-unit id="tl_elementsets.customTplEnde.1">
+        <source>Hier können Sie das Standard-Template für den Wrapper überschreiben.</source>
+      </trans-unit>               
     </body>
   </file>
 </xliff>

@@ -107,8 +107,15 @@ $GLOBALS['TL_DCA']['tl_elementsets'] = array
 	// Palettes
 	'palettes' => array
 	(
-		'default'                     => '{title_legend},title,preview_image,elementset_class,category'
+        '__selector__'                => array('addWrapper'),
+        'default'                     => '{title_legend},title,category,preview_image,addWrapper',
     ),
+
+    	// Subpalettes
+	'subpalettes' => array
+	(
+		'addWrapper'                  => 'elementset_class,customTplStart,customTplEnde',
+	),
     
 	// Fields
 	'fields' => array
@@ -165,6 +172,35 @@ $GLOBALS['TL_DCA']['tl_elementsets'] = array
             ),
             'sql'                     => "text NULL"
         ),
+        'addWrapper' => array
+		(
+			'exclude'                 => true,
+			'inputType'               => 'checkbox',
+			'eval'                    => array('submitOnChange'=>true),
+			'sql'                     => "char(1) NOT NULL default '1'"
+        ),
+        'customTplStart' => array
+		(
+			'exclude'                 => true,
+			'inputType'               => 'select',
+			'options_callback' => static function (\Contao\DataContainer $dc)
+			{
+				return \Contao\Controller::getTemplateGroup('ce_elementset_start_');
+			},
+			'eval'                    => array('includeBlankOption'=>true, 'chosen'=>true, 'tl_class'=>'w50 clr'),
+			'sql'                     => "varchar(64) NOT NULL default ''"
+        ),
+        'customTplEnde' => array
+		(
+			'exclude'                 => true,
+			'inputType'               => 'select',
+			'options_callback' => static function (\Contao\DataContainer $dc)
+			{
+				return \Contao\Controller::getTemplateGroup('ce_elementset_end_');
+			},
+			'eval'                    => array('includeBlankOption'=>true, 'chosen'=>true, 'tl_class'=>'w50'),
+			'sql'                     => "varchar(64) NOT NULL default ''"
+		),        
 	)
 );
 class tl_elementsets extends Backend
@@ -177,8 +213,6 @@ class tl_elementsets extends Backend
     {
         parent::__construct();
         $this->import('BackendUser', 'User');
-       /* $set = array('pid' => '13', 'ptable' => 'tl_elementsets');
-        $objInsert = $this->Database->prepare("INSERT INTO tl_content %s")->set($set)->execute();*/
     }
 
     /**
