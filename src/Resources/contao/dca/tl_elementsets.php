@@ -181,6 +181,7 @@ $GLOBALS['TL_DCA']['tl_elementsets'] = array
         ),
         'customTplStart' => array
 		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_elementsets']['customTplStart'],
 			'exclude'                 => true,
 			'inputType'               => 'select',
 			'options_callback' => static function (\Contao\DataContainer $dc)
@@ -192,6 +193,7 @@ $GLOBALS['TL_DCA']['tl_elementsets'] = array
         ),
         'customTplEnde' => array
 		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_elementsets']['customTplEnde'],
 			'exclude'                 => true,
 			'inputType'               => 'select',
 			'options_callback' => static function (\Contao\DataContainer $dc)
