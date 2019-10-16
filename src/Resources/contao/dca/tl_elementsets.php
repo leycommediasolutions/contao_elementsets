@@ -173,7 +173,8 @@ $GLOBALS['TL_DCA']['tl_elementsets'] = array
             'sql'                     => "text NULL"
         ),
         'addWrapper' => array
-		(
+	(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_elementsets']['addWrapper'],
 			'exclude'                 => true,
 			'inputType'               => 'checkbox',
 			'eval'                    => array('submitOnChange'=>true),
