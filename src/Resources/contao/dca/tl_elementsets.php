@@ -185,7 +185,8 @@ $GLOBALS['TL_DCA']['tl_elementsets'] = array
             'sql'                     => "text NULL"
         ),
         'addWrapper' => array
-		(
+	(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_elementsets']['addWrapper'],
 			'exclude'                 => true,
 			'inputType'               => 'checkbox',
 			'eval'                    => array('submitOnChange'=>true),
@@ -193,6 +194,7 @@ $GLOBALS['TL_DCA']['tl_elementsets'] = array
         ),
         'customTplStart' => array
 		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_elementsets']['customTplStart'],
 			'exclude'                 => true,
 			'inputType'               => 'select',
 			'options_callback' => static function (\Contao\DataContainer $dc)
@@ -204,6 +206,7 @@ $GLOBALS['TL_DCA']['tl_elementsets'] = array
         ),
         'customTplEnde' => array
 		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_elementsets']['customTplEnde'],
 			'exclude'                 => true,
 			'inputType'               => 'select',
 			'options_callback' => static function (\Contao\DataContainer $dc)
@@ -212,7 +215,7 @@ $GLOBALS['TL_DCA']['tl_elementsets'] = array
 			},
 			'eval'                    => array('includeBlankOption'=>true, 'chosen'=>true, 'tl_class'=>'w50'),
 			'sql'                     => "varchar(64) NOT NULL default ''"
-		),        
+		),       
 	)
 );
 class tl_elementsets extends Backend
