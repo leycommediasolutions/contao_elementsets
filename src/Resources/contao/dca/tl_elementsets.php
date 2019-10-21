@@ -101,19 +101,7 @@ $GLOBALS['TL_DCA']['tl_elementsets'] = array
 				'label'               => &$GLOBALS['TL_LANG']['tl_elementsets']['show'],
 				'href'                => 'act=show',
 				'icon'                => 'show.svg'
-            ),
-            'export' => array
-			(
-				'label'               => &$GLOBALS['TL_LANG']['tl_elementsets']['export'],
-				'href'                => 'key=export',
-				'icon'                => 'show.svg'
-            ),
-			'import' => array
-			(
-				'label'               => &$GLOBALS['TL_LANG']['tl_elementsets']['import'],
-				'href'                => 'key=import',
-				'icon'                => 'copy.svg',
-			),            
+            ),           
 		)
 	),
 	// Palettes
