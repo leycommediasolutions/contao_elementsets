@@ -1,6 +1,7 @@
 {
     "name": "leycommediasolutions/contao_elementsets",
     "type": "contao-bundle",
+    "homepage":"https://www.leycom.de/",
     "description": "Contao 4 elementsets bundle",
     "license": "LGPL-3.0-or-later",
     "require": {
