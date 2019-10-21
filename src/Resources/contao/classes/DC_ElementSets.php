@@ -309,6 +309,14 @@ class DC_ElementSets extends \DC_Table
         // Die Daten werden aus der Datenbank genommen
         $result = $this->Database->prepare("SELECT id, title, preview_image, category FROM tl_elementsets")
                                 ->execute();
+
+        $this->import(BackendUser::class, 'User');
+
+        $result_screen = $this->Database->prepare("SELECT fullscreen FROM tl_user WHERE id=?")
+                                        ->execute($this->User->id);
+        
+        $fullscreen = $result_screen->fullscreen;     
+
         // Das Bild wird generiert
         //$objFile = \FilesModel::findByPk($objPage->flexibleheader_image)->path; /*echo $objFile*/
         while($result->next())
@@ -316,66 +324,142 @@ class DC_ElementSets extends \DC_Table
             $id[] = $result->id;
             $title[] = $result->title;
             $objFile_picture = \FilesModel::findByUuid($result->preview_image);
-            $picture[] = Image::getHtml(\System::getContainer()->get('contao.image.image_factory')->create(TL_ROOT . '/' . $objFile_picture->path)->getUrl(TL_ROOT), '', 'class="elementsets_preview"');
+            $picture[] = Image::getHtml(\System::getContainer()->get('contao.image.image_factory')->create(TL_ROOT . '/' . $objFile_picture->path)->getUrl(TL_ROOT), $result->title, 'class="elementsets_preview"');
             $category[] = $result->category;
         }
         if($_POST['category'] != '')
         {
+            $return_first = "";
+            $return_second = "";
+            $return_third = "";
+            $element = array();
             $temp_category = array(); 
             $temp_category_number = array_search($_POST['category'],$category_name);
 
             $return .= '<fieldset' .' id="pal_'.$id_category[$temp_category_number].'"'. ' class="tl_tbox tl_formbody_edit_elementsets">';
             $return .= '<legend onclick="AjaxRequest.toggleFieldset(this,\'' . $id_category[$temp_category_number] . '\',\'' . $this->strTable . '\')">' . $category_name[$temp_category_number] . '</legend>';
+            $return .= '<div class="elementset_flex">';
                 // Eine Schleife wird durchlaufen um die Kategorien abzuarbeiten
                 for($iy=0; $iy <count($category); $iy++)
                 {
                     // Nur die passenden Daten werden herausgegeben
                     if($category[$iy] == $_POST['category'])
                     {
-                        $return .= '<div class="w50 autoheight widget">';
-                        $return .= '<div class="tl_box_elementsets">';
-                        $return .= '<div class="inside_elementsets">';
-                        $return .= $picture[$iy];
-                        $return .= '<h2>'.$title[$iy].'</h2>';
-                        $return .= '<a class="insert_elementsets" href="'.ampersand(\Environment::get('request'), true).'&amp;elementset_id='.$id[$iy].'">'.$GLOBALS['TL_LANG']['tl_content']['insert_elementsets'].'</a>';
-                        $return .= '</div>';
-                        $return .= '</div>';
-                        $return .= '</div>';
+                        $element[] = '<div class="tl_box_elementsets">
+                        <div class="inside_elementsets">
+                        <figure class="image_container">'.$picture[$iy].'</figure><h2>'.$title[$iy].'</h2>
+                        <a class="insert_elementsets" href="'.ampersand(\Environment::get('request'), true).'&amp;elementset_id='.$id[$iy].'"><span>'.$GLOBALS['TL_LANG']['tl_content']['insert_elementsets'].'</span></a>
+                        </div>
+                        </div>';
                     }
                 }
+                if(!$fullscreen || count($element) <= 3){
+                    for($ie=0; $ie < count($element); $ie++){
+                        if ($ie % 2 != 0) {
+                            $return_second .= $element[$ie];
+                        }else{
+                            $return_first .= $element[$ie];
+                        }
+                    }
+
+                    $return .= '<div class="elementsets_column_1 first">';
+                    $return .= $return_first;
+                    $return .= '</div>';
+                    $return .= '<div class="elementsets_column_2 second">';
+                    $return .= $return_second;
+                    $return .= '</div>';
+                }else{
+                    for($ie=0; $ie < count($element); $ie++){
+                        if ($ie % 2 != 0) {
+                            $return_first .= $element[$ie];
+                        }else if($ie %3 != 0){
+                            $return_second .= $element[$ie];
+                        }else{
+                            $return_third .= $element[$ie];
+                        }
+                    }
+
+                    $return .= '<div class="elementsets_column_1 first">';
+                    $return .= $return_first;
+                    $return .= '</div>';
+                    $return .= '<div class="elementsets_column_2 second">';
+                    $return .= $return_second;
+                    $return .= '</div>';
+                    $return .= '<div class="elementsets_column_3 third">';
+                    $return .= $return_third;
+                    $return .= '</div>';                        
+                }                
+            $return .= '</div>';
             $return .= '</fieldset>';
 
         }else{
             for($ix=0; $ix < count($category_name); $ix++)
             {
+                $return_first = "";
+                $return_second = "";
+                $return_third = "";
+                $element = array();
+
                 if(in_array($category_name[$ix], $category)){
                     $return .= '<fieldset' .' id="pal_'.$id_category[$ix].'"'. ' class="tl_tbox tl_formbody_edit_elementsets">';
                     $return .= '<legend onclick="AjaxRequest.toggleFieldset(this,\'' . $id_category[$ix] . '\',\'' . $this->strTable . '\')">' . $category_name[$ix] . '</legend>';
-                        // Eine Schleife wird durchlaufen um die Kategorien abzuarbeiten
-                        for($iy=0; $iy <count($category); $iy++)
-                        {
-                            // Nur die passenden Daten werden herausgegeben
-                            if($category[$iy] == $category_name[$ix])
-                            {
-                                $return .= '<div class="w50 autoheight widget">';
-                                $return .= '<div class="tl_box_elementsets">';
-                                $return .= '<div class="inside_elementsets">';
-                                $return .= $picture[$iy];
-                                $return .= '<h2>'.$title[$iy].'</h2>';
-                                $return .= '<a class="insert_elementsets" href="'.ampersand(\Environment::get('request'), true).'&amp;elementset_id='.$id[$iy].'">'.$GLOBALS['TL_LANG']['tl_content']['insert_elementsets'].'</a>';
-                                $return .= '</div>';
-                                $return .= '</div>';
-                                $return .= '</div>';
+                    $return .= '<div class="elementset_flex">';
+                    // Eine Schleife wird durchlaufen um die Kategorien abzuarbeiten
+                    for($iy=0; $iy <count($category); $iy++)
+                    {
+                        // Nur die passenden Daten werden herausgegeben
+                        if($category[$iy] == $category_name[$ix])
+                        {               
+                            $element[] = '<div class="tl_box_elementsets">
+                            <div class="inside_elementsets">
+                            <figure class="image_container">'.$picture[$iy].'</figure><h2>'.$title[$iy].'</h2>
+                            <a class="insert_elementsets" href="'.ampersand(\Environment::get('request'), true).'&amp;elementset_id='.$id[$iy].'"><span>'.$GLOBALS['TL_LANG']['tl_content']['insert_elementsets'].'</span></a>
+                            </div>
+                            </div>';
+                        }
+                    }
+
+                    if(!$fullscreen || count($element) <= 3){
+                        for($ie=0; $ie < count($element); $ie++){
+                            if ($ie % 2 != 0) {
+                                $return_second .= $element[$ie];
+                            }else{
+                                $return_first .= $element[$ie];
                             }
                         }
+    
+                        $return .= '<div class="elementsets_column_1 first">';
+                        $return .= $return_first;
+                        $return .= '</div>';
+                        $return .= '<div class="elementsets_column_2 second">';
+                        $return .= $return_second;
+                        $return .= '</div>';
+                    }else{
+                        for($ie=0; $ie < count($element); $ie++){
+                            if ($ie % 2 != 0) {
+                                $return_first .= $element[$ie];
+                            }else if($ie %3 != 0){
+                                $return_second .= $element[$ie];
+                            }else{
+                                $return_third .= $element[$ie];
+                            }
+                        }
+
+                        $return .= '<div class="elementsets_column_1 first">';
+                        $return .= $return_first;
+                        $return .= '</div>';
+                        $return .= '<div class="elementsets_column_2 second">';
+                        $return .= $return_second;
+                        $return .= '</div>';
+                        $return .= '<div class="elementsets_column_3 third">';
+                        $return .= $return_third;
+                        $return .= '</div>';                        
+                    }
+                    $return .= '</div>';
                     $return .= '</fieldset>';
                 }
             }
         }
-        
-		$return .= '
-            </div>
-            </form>';
 
         $result_options = $this->Database->prepare("SELECT category FROM tl_elementsets_category")
                                 ->execute();
@@ -390,12 +474,14 @@ class DC_ElementSets extends \DC_Table
             }
         }
              
+        //FILTER SUBMIT
         $submit = '
         <div class="tl_submit_panel tl_subpanel">
           <button name="filter" id="filter" class="tl_img_submit filter_apply" title="' . \StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['applyTitle']) . '">' . $GLOBALS['TL_LANG']['MSC']['apply'] . '</button>
           <button name="filter_reset" id="filter_reset" value="1" class="tl_img_submit filter_reset" title="' . \StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['resetTitle']) . '">' . $GLOBALS['TL_LANG']['MSC']['reset'] . '</button>
         </div>';
         
+        //FILTER HTML
         $return1 .= '
             <div class="tl_panel cf">
             ' . $submit . ' 
@@ -408,6 +494,7 @@ class DC_ElementSets extends \DC_Table
             </div>
         ';
         
+        //FILTER FORM
         $return1 = '
             <form action="'.ampersand(\Environment::get('request'), true).'" class="tl_form" method="post" aria-label="'.\StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['searchAndFilter']).'">
             <div class="tl_formbody">
@@ -416,17 +503,15 @@ class DC_ElementSets extends \DC_Table
             '.$return1.'
            
             </form>';
-
-		// Begin the form (-> DO NOT CHANGE THIS ORDER -> this way the onsubmit attribute of the form can be changed by a field)
+        
+        // Begin the form (-> DO NOT CHANGE THIS ORDER -> this way the onsubmit attribute of the form can be changed by a field)
         $return = $return1. '
             <div id="tl_buttons">' . (\Input::get('nb') ? '&nbsp;' : '
             <a href="'.$this->getReferer(true).'" class="header_back" title="'.\StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a>') . '
             </div>
-            <form action="'.ampersand(\Environment::get('request'), true).'" id="'.$this->strTable.'" class="tl_form tl_edit_form" method="post" enctype="' . ($this->blnUploadable ? 'multipart/form-data' : 'application/x-www-form-urlencoded') . '"'.(!empty($this->onsubmit) ? ' onsubmit="'.implode(' ', $this->onsubmit).'"' : '').'>
-            
-            <input type="hidden" name="FORM_SUBMIT" value="'.$this->strTable.'">
-            <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">
-            <input type="hidden" name="FORM_FIELDS[]" value="'.$cat.'">' . $return;
+            <div class="contao_elementsets_holder">
+                '.$return.'
+            </div>';
 
 		// Reload the page to prevent _POST variables from being sent twice
 		if (\Input::post('FORM_SUBMIT') == $this->strTable && !$this->noReload)

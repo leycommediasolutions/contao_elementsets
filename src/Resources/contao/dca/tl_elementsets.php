@@ -102,6 +102,18 @@ $GLOBALS['TL_DCA']['tl_elementsets'] = array
 				'href'                => 'act=show',
 				'icon'                => 'show.svg'
             ),
+            'export' => array
+			(
+				'label'               => &$GLOBALS['TL_LANG']['tl_elementsets']['export'],
+				'href'                => 'key=export',
+				'icon'                => 'show.svg'
+            ),
+			'import' => array
+			(
+				'label'               => &$GLOBALS['TL_LANG']['tl_elementsets']['import'],
+				'href'                => 'key=import',
+				'icon'                => 'copy.svg',
+			),            
 		)
 	),
 	// Palettes
@@ -173,8 +185,7 @@ $GLOBALS['TL_DCA']['tl_elementsets'] = array
             'sql'                     => "text NULL"
         ),
         'addWrapper' => array
-	(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_elementsets']['addWrapper'],
+		(
 			'exclude'                 => true,
 			'inputType'               => 'checkbox',
 			'eval'                    => array('submitOnChange'=>true),
@@ -182,7 +193,6 @@ $GLOBALS['TL_DCA']['tl_elementsets'] = array
         ),
         'customTplStart' => array
 		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_elementsets']['customTplStart'],
 			'exclude'                 => true,
 			'inputType'               => 'select',
 			'options_callback' => static function (\Contao\DataContainer $dc)
@@ -194,7 +204,6 @@ $GLOBALS['TL_DCA']['tl_elementsets'] = array
         ),
         'customTplEnde' => array
 		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_elementsets']['customTplEnde'],
 			'exclude'                 => true,
 			'inputType'               => 'select',
 			'options_callback' => static function (\Contao\DataContainer $dc)
