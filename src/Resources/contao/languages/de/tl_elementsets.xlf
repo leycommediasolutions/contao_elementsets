@@ -84,10 +84,10 @@
         <source>Erstellen Sie eine Kategorie.</source>
       </trans-unit>
       <trans-unit id="tl_elementsets.addWrapper.0">
-        <source>Wrapper einfügen</source>
+        <source>Frontend-Wrapper einfügen</source>
       </trans-unit>
       <trans-unit id="tl_elementsets.addWrapper.1">
-        <source>Hier können Sie auswählen ob ein Wrapper eingefügt werden soll.</source>
+        <source>Hier können Sie auswählen, ob ein Frontend-Wrapper eingefügt werden soll.</source>
       </trans-unit>      
       <trans-unit id="tl_elementsets.customTplStart.0">
         <source>Individuelles Template (Start)</source>
