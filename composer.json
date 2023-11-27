@@ -1,29 +1,20 @@
 {
-    "name": "leycommediasolutions/contao_elementsets",
-    "type": "contao-bundle",
-    "homepage":"https://www.leycom.de/",
-    "description": "Contao 4 elementsets bundle",
-    "license": "LGPL-3.0-or-later",
-    "require": {
-        "php": "^7.1 | ^8.0",
-        "contao/core-bundle": "^4.13 | ^5.0",
-        "contao-community-alliance/composer-plugin":"~3.0"
-    },
-    "extra": {
-        "contao-manager-plugin": "leycommediasolutions\\contao_elementsets\\ContaoManager\\ContaoManagerPlugin"
-    },
-    "autoload": {
-        "psr-4": {
-            "leycommediasolutions\\contao_elementsets\\": "src/"
-        },
-        "classmap": [
-            "src/Resources/contao/"
-        ],
-        "exclude-from-classmap": [
-            "src/Resources/contao/config/",
-            "src/Resources/contao/dca/",
-            "src/Resources/contao/languages/",
-            "src/Resources/contao/templates/"
-        ]
+  "name": "leycommediasolutions/contao_elementsets",
+  "type": "contao-bundle",
+  "homepage": "https://www.leycom.de/",
+  "description": "Contao 4 elementsets bundle",
+  "license": "LGPL-3.0-or-later",
+  "require": {
+    "php": "^7.4 | ^8.0",
+    "contao/core-bundle": "~4.13",
+    "contao-community-alliance/composer-plugin": "~3.0"
+  },
+  "extra": {
+    "contao-manager-plugin": "leycommediasolutions\\contao_elementsets\\ContaoManager\\ContaoManagerPlugin"
+  },
+  "autoload": {
+    "psr-4": {
+      "leycommediasolutions\\contao_elementsets\\": "src/"
     }
+  }
 }
