@@ -5,8 +5,8 @@
     "description": "Contao 4 elementsets bundle",
     "license": "LGPL-3.0-or-later",
     "require": {
-        "php": "^7.1",
-        "contao/core-bundle": "~4.1",
+        "php": "^7.1 | ^8.0",
+        "contao/core-bundle": "^4.13 | ^5.0",
         "contao-community-alliance/composer-plugin":"~3.0"
     },
     "extra": {
