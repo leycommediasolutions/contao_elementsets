@@ -1,4 +1,6 @@
 <?php
+use leycommediasolutions\contao_elementsets\Resources\contao\classes\DC_ElementSets;
+
 $GLOBALS['TL_DCA']['tl_content']['fields']['elementset_sort'] = array
 (
 	'eval' => array('doNotCopy' => true),
@@ -16,7 +18,7 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['elementset_id_all'] = array
 );
 
 
-$GLOBALS['TL_DCA']['tl_content']['config']['dataContainer'] = 'ElementSets';
+$GLOBALS['TL_DCA']['tl_content']['config']['dataContainer'] = DC_ElementSets::class;
 $GLOBALS['TL_DCA']['tl_content']['config']['onload_callback'][] = array('tl_content_elementsets', 'ElementsetOnload');
 
 
