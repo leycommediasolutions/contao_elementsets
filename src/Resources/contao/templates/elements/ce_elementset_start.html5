@@ -1,3 +1,0 @@
-<?php if($this->addWrapper): ?>
-<div <?php echo $this->cssID ?> class="<?php echo $this->class;?> <?php echo $this->elementset_class;?>">
-<?php endif;?>

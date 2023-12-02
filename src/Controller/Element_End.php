@@ -1,0 +1,102 @@
+<?php
+namespace leycommediasolutions\contao_elementsets\Controller;
+
+use Contao\ContentElement;
+
+class Element_End extends ContentElement
+{
+    /**
+	 * Template
+	 * @var string
+	 */
+    protected $strTemplate = 'ce_elementset_end';
+
+    public function generate()
+	{   
+        $resultelementset_id = $this->Database->prepare("SELECT elementset_id FROM tl_content WHERE id=? ")
+                                              ->limit(1)
+                                              ->execute($this->id);
+
+        if($resultelementset_id->numRows > 0){                                        
+            foreach($resultelementset_id->row()  as $k=>$v)
+            {
+                $resultelementset_id_new = $this->Database->prepare("SELECT customTplEnde FROM tl_elementsets WHERE id=? AND addWrapper=1")
+                                                          ->limit(1)
+                                                          ->execute($v);
+
+                if($resultelementset_id_new->numRows > 0){ 
+
+                    $result_array = $resultelementset_id_new->row();
+                    if($result_array["customTplEnde"]){
+                        $this->strTemplate = $result_array["customTplEnde"];
+                        if($this->customTpl){
+                            $this->strTemplate = $this->customTpl;
+                        }
+                    }
+                }
+            }
+        }        
+        return parent::generate();
+    }
+
+
+	/**
+     * Compile the content element
+     */
+    protected function compile()
+    {
+        if (TL_MODE == 'BE') {
+            $this->genBeOutput();
+        } else {
+            $this->genFeOutput();
+        }
+    }
+    /**
+     * @return string
+     */
+    private function genBeOutput()
+    {
+        $resultelementset_id = $this->Database->prepare("SELECT elementset_id FROM tl_content WHERE id=? ")
+                                        ->execute($this->id);
+
+        foreach($resultelementset_id->row()  as $k=>$v)
+        {
+            $this->strTemplate          = 'be_wildcard';
+            $this->Template             = new \BackendTemplate($this->strTemplate);
+            $this->Template->wildcard   = "### ". $GLOBALS['TL_LANG']['FFL']['elementset_end'][0] .$v ." ###";
+        }
+    }
+    /**
+     * @return string
+     */
+    private function genFeOutput()
+    {
+        $this->Template->elementset_class = "ce_elementset";
+        $this->Template->addWrapper = "";
+
+        $resultelementset_id = $this->Database->prepare("SELECT elementset_id FROM tl_content WHERE id=? ")
+                                              ->limit(1)
+                                              ->execute($this->id);
+
+        if($resultelementset_id->numRows > 0){                                        
+            foreach($resultelementset_id->row()  as $k=>$v)
+            {
+                $resultelementset_id_new = $this->Database->prepare("SELECT elementset_class, addWrapper FROM tl_elementsets WHERE id=? ")
+                                                          ->limit(1)
+                                                          ->execute($v);
+
+                if($resultelementset_id_new->numRows > 0){ 
+
+                    $result_array = $resultelementset_id_new->row();
+                    if($result_array["elementset_class"] && $result_array["addWrapper"]){
+                        $this->Template->elementset_class = 'ce_elementset '. $result_array["elementset_class"];
+                    }
+                    if($result_array["addWrapper"]){
+                        $this->Template->addWrapper = $result_array["addWrapper"];
+                    }
+                }
+            }
+        }
+    }
+}
+class_alias(Element_End::class, 'Element_End');

@@ -1,0 +1,88 @@
+ .tl_formbody_edit_elementsets *{
+    -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+.tl_formbody_edit_elementsets img{
+    width: 100%;
+    height: auto;
+    padding: 10px;
+}
+.tl_formbody_edit_elementsets .elementset_flex{
+    display: flex; 
+    justify-content: flex-start; 
+    flex-wrap: wrap;
+    align-items: flex-start;
+    padding-left: 15px;
+}
+.tl_formbody_edit_elementsets  .tl_box_elementsets{
+    /* width: calc(25% - 15px); 
+    padding-left: .9375rem;
+    padding-right: .9375rem;
+    margin-bottom: 2rem;
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    -ms-flex-direction: column;
+    flex-direction: column;*/
+    background: rgba(0,0,0,.05); 
+    padding: .9375rem;
+    margin-right: 15px;
+    margin-bottom: .9375rem; 
+}
+.tl_formbody_edit_elementsets .inside_elementsets .image_container{
+    background: #fff;
+    margin-bottom: 1rem;
+}
+.tl_formbody_edit_elementsets .inside_elementsets h2{
+    font-size: 1.1rem; 
+}  
+.tl_formbody_edit_elementsets .inside_elementsets .insert_elementsets{
+    display: inline-block;
+    padding: .5rem 1rem;
+    background-color: #A4C420;
+    margin-top: 1rem;
+} 
+
+.tl_formbody_edit_elementsets .inside_elementsets .insert_elementsets:hover,
+.tl_formbody_edit_elementsets .inside_elementsets .insert_elementsets:visited,
+.tl_formbody_edit_elementsets .inside_elementsets .insert_elementsets:active{
+    color: #000;
+    background-color: rgba(164, 196, 32, .5);
+    text-decoration: none;
+}
+
+body:not(.fullscreen) .elementsets_column_1,
+body:not(.fullscreen) .elementsets_column_2{
+    width: 50%; 
+    display: inline-block;
+}
+body.fullscreen .elementsets_column_1,
+body.fullscreen .elementsets_column_2,
+body.fullscreen .elementsets_column_3{
+    width: 33.33%; 
+    display: inline-block;
+}
+
+@media screen and (max-width: 1440px){
+    body.fullscreen .elementsets_column_1,
+    body.fullscreen .elementsets_column_2,
+    body.fullscreen .elementsets_column_3{
+        width: 50%; 
+        display: inline-block;
+    } 
+}
+
+@media screen and (max-width: 650px){
+    body.fullscreen .elementsets_column_1,
+    body.fullscreen .elementsets_column_2,
+    body.fullscreen .elementsets_column_3,
+    body:not(.fullscreen) .elementsets_column_1,
+    body:not(.fullscreen) .elementsets_column_2{
+        width: 100%; 
+        display: inline-block;
+    } 
+}
