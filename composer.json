@@ -1,9 +1,18 @@
 {
   "name": "leycommediasolutions/contao_elementsets",
+  "description": "Contao 4 elementsets bundle",  
+  "keywords": ["contao", "elementsets"],
   "type": "contao-bundle",
   "homepage": "https://www.leycom.de/",
-  "description": "Contao 4 elementsets bundle",
   "license": "LGPL-3.0-or-later",
+	"authors": [
+		{
+			"name": "Ralph Leyendecker - leycom - media solutions",
+			"homepage": "http://www.leycom.de",
+			"email": "info@leycom.de",
+			"role": "Developer"
+		}
+	],  
   "require": {
     "php": "^7.4 | ^8.0",
     "contao/core-bundle": "~4.13",
